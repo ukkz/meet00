@@ -56,7 +56,8 @@ const startVideo = async video => {
 
 const loadModels = async () => {
     await Promise.all([
-     faceapi.nets.tinyFaceDetector.loadFromUri(`/js/lib/models`)
+     faceapi.nets.tinyFaceDetector.loadFromUri(`/js/lib/models`),
+     faceapi.nets.faceExpressionNet.loadFromUri(`/js/lib/models`)
    ]);
   };
 
@@ -86,7 +87,7 @@ const loadModels = async () => {
       const results = await faceapi.detectAllFaces(
         video,
         new faceapi.TinyFaceDetectorOptions(tinyFaceDetectorOption)
-      );
+      ).withFaceExpressions();
       if (results.length <= 0) return;
       // 検出結果をcanvasのサイズにリサイズ
       const resizedResults = faceapi.resizeResults(results, displaySize);
@@ -97,7 +98,8 @@ const loadModels = async () => {
       // 矩形描画
       //faceapi.draw.drawDetections(canvas, resizedResults);
 
-       resizedResults.forEach(detection => {
+       resizedResults.forEach(({ detection, expressions }) => {
+         console.log(expressions);
               // 矩形の情報はdetection.boxに格納されている
               const width = image.width * marginVal;
               const height = image.height * marginVal;
