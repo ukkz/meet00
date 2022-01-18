@@ -99,7 +99,12 @@ const loadModels = async () => {
       //faceapi.draw.drawDetections(canvas, resizedResults);
 
        resizedResults.forEach(({ detection, expressions }) => {
-         console.log(expressions);
+          console.log(expressions.happy);
+          if (.4 < expressions.happy) {
+            document.getElementById('happy').style.opacity = 1;
+          } else {
+            document.getElementById('happy').style.opacity = 0;
+          }
               // 矩形の情報はdetection.boxに格納されている
               const width = image.width * marginVal;
               const height = image.height * marginVal;
