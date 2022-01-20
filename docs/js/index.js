@@ -100,10 +100,12 @@ const loadModels = async () => {
 
        resizedResults.forEach(({ detection, expressions }) => {
           console.log(expressions.happy);
-          if (.4 < expressions.happy) {
-            document.getElementById('happy').style.opacity = 1;
-          } else {
-            document.getElementById('happy').style.opacity = 0;
+          if (document.querySelector('#emotion').checked) {
+            if (.4 < expressions.happy) {
+              document.getElementById('happy').style.opacity = 1;
+            } else {
+              document.getElementById('happy').style.opacity = 0;
+            }
           }
               // 矩形の情報はdetection.boxに格納されている
               const width = image.width * marginVal;
