@@ -47,6 +47,38 @@
         z-index: 1;
       }
 
+      #frame {
+        position: absolute;
+        top: 500px;
+        left: 100px;
+        z-index: 1;
+      }
+
+      #live {
+        position: absolute;
+        top: 0; bottom: 0;
+        left: 0; right: 0;
+        margin: auto;
+        object-fit: contain;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      #live img {
+        opacity: 1;
+      }
+
+      #comments {
+        position: absolute;
+        right: 0; bottom: 40%;
+        width: 19.42%; height: 30.5%;
+        background: url(/comment/comments.png) 0 0 repeat-y;
+        background-size: contain;
+        z-index: 1;
+        animation: comments 12s steps(4) infinite;
+      }
+
       img {
         position: absolute;
         top: 0; left: 0;
@@ -56,6 +88,9 @@
         pointer-events: none;
         z-index: 1;
       }
+    </style>
+    <style id="keyframes">
+
     </style>
   </head>
 
@@ -69,7 +104,17 @@
 <input id="x" type="range" name="range" autofocus min="-1" max="3" step="0.1">
 <input id="y" type="range" name="range" autofocus min="-1" max="3" step="0.1">
 <input id="emotion" type="checkbox">
+<select id="frame">
+  <option>フレームなし</option>
+  <option>ナチュラル</option>
+  <option>ライブ</option>
+</select>
 
+<img id="natural" src="frame/frame_natural.png" />
+<div id="live">
+  <img src="frame/frame_live.png" />
+  <div id="comments"></div>
+</div>
 <img id="happy" src="frame/frame01_happy.png" />
 <img id="sad" src="frame/frame02_sad.png" />
 <img id="angry" src="frame/frame03_angry.png" />
