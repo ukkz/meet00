@@ -44,6 +44,50 @@ document.body.addEventListener('keydown',
       posiy = Number(event.target.value);
     });
 
+    document.querySelector('#frame').addEventListener('input', (event) => {
+      switch (event.target.value) {
+        case 'フレームなし':
+          document.getElementById('natural').style.opacity = 0;
+          document.getElementById('live').style.opacity = 0;
+          break;
+        case 'ナチュラル':
+          document.getElementById('natural').style.opacity = 1;
+          document.getElementById('live').style.opacity = 0;
+          break;
+        case 'ライブ':
+          document.getElementById('natural').style.opacity = 0;
+          document.getElementById('live').style.opacity = 1;
+          break;
+      }
+      console.log(event.target.value);
+    });
+
+    window.addEventListener('resize', () => {
+      const screenAspect = window.innerHeight / window.innerWidth;
+      const imgAspect = 800 / 1200;
+
+      if (screenAspect < imgAspect) {
+        document.getElementById('live').style.width = `${ window.innerHeight / imgAspect }px`;
+        document.getElementById('live').style.height = '100%';
+      } else {
+        document.getElementById('live').style.width = '100%';
+        document.getElementById('live').style.height = `${ window.innerWidth * imgAspect }px`;
+      }
+
+      document.getElementById('keyframes').innerText = `
+        @keyframes comments {
+          0% {
+            background-position: 0 0;
+          }
+
+          100% {
+            background-position: 0 -${ document.getElementById('live').clientHeight * 0.305 }px;
+          }
+        }
+      `;
+    });
+
+    window.dispatchEvent(new Event('resize'));
 const startVideo = async video => {
   try {
     const constraints = { audio: false, video: {} };
@@ -99,7 +143,7 @@ const loadModels = async () => {
       //faceapi.draw.drawDetections(canvas, resizedResults);
 
        resizedResults.forEach(({ detection, expressions }) => {
-          console.log(expressions.sad);
+          // console.log(expressions.sad);
           if (document.querySelector('#emotion').checked) {
             if (.4 < expressions.happy) {
               document.getElementById('happy').style.opacity = 1;
