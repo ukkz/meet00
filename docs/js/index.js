@@ -72,19 +72,19 @@ document.body.addEventListener('keydown',
       } else {
         document.getElementById('live').style.width = '100%';
         document.getElementById('live').style.height = `${ window.innerWidth * imgAspect }px`;
-
-        document.getElementById('keyframes').innerText = `
-          @keyframes comments {
-            0% {
-              background-position: 0 0;
-            }
-    
-            100% {
-              background-position: 0 -${ document.getElementById('live').clientHeight * 0.305 }px;
-            }
-          }
-        `;
       }
+
+      document.getElementById('keyframes').innerText = `
+        @keyframes comments {
+          0% {
+            background-position: 0 0;
+          }
+
+          100% {
+            background-position: 0 -${ document.getElementById('live').clientHeight * 0.305 }px;
+          }
+        }
+      `;
     });
 
     window.dispatchEvent(new Event('resize'));
