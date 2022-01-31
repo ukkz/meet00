@@ -127,7 +127,8 @@ const loadModels = async () => {
       scoreThreshold: 0.5
     };
 
-    setInterval(async () => { 
+    // 繰り返し処理（1フレーム）
+    const loop = async () => {
       const results = await faceapi.detectAllFaces(
         video,
         new faceapi.TinyFaceDetectorOptions(tinyFaceDetectorOption)
@@ -142,41 +143,42 @@ const loadModels = async () => {
       // 矩形描画
       //faceapi.draw.drawDetections(canvas, resizedResults);
 
-       resizedResults.forEach(({ detection, expressions }) => {
-          // console.log(expressions.sad);
-          if (document.querySelector('#emotion').checked) {
-            if (.4 < expressions.happy) {
-              document.getElementById('happy').style.opacity = 1;
-              document.getElementById('sad').style.opacity = 0;
-              document.getElementById('angry').style.opacity = 0;
-            } else if (.4 < expressions.sad) {
-              document.getElementById('happy').style.opacity = 0;
-              document.getElementById('sad').style.opacity = 1;
-              document.getElementById('angry').style.opacity = 0;
-            } else if (.4 < expressions.angry) {
-              document.getElementById('happy').style.opacity = 0;
-              document.getElementById('sad').style.opacity = 0;
-              document.getElementById('angry').style.opacity = 1;
-            } else {
-              document.getElementById('happy').style.opacity = 0;
-              document.getElementById('sad').style.opacity = 0;
-              document.getElementById('angry').style.opacity = 0;
-            }
+      resizedResults.forEach(({ detection, expressions }) => {
+        // console.log(expressions.sad);
+        if (document.querySelector('#emotion').checked) {
+          if (.4 < expressions.happy) {
+            document.getElementById('happy').style.opacity = 1;
+            document.getElementById('sad').style.opacity = 0;
+            document.getElementById('angry').style.opacity = 0;
+          } else if (.4 < expressions.sad) {
+            document.getElementById('happy').style.opacity = 0;
+            document.getElementById('sad').style.opacity = 1;
+            document.getElementById('angry').style.opacity = 0;
+          } else if (.4 < expressions.angry) {
+            document.getElementById('happy').style.opacity = 0;
+            document.getElementById('sad').style.opacity = 0;
+            document.getElementById('angry').style.opacity = 1;
+          } else {
+            document.getElementById('happy').style.opacity = 0;
+            document.getElementById('sad').style.opacity = 0;
+            document.getElementById('angry').style.opacity = 0;
           }
-            
-              // 矩形の情報はdetection.boxに格納されている
-              const width = image.width * marginVal;
-              const height = image.height * marginVal;
-              const x = detection.box.x *posix - (width - detection.box._width) /2;
-              const y = detection.box.y * posiy - (height - detection.box._height) / 2;
+        }
 
-              //canvas.getContext("2d").fillRect(x, y, width, height); // 追加
-              canvas.getContext("2d").drawImage(image, x, y, width, height);
-            });
+        // 矩形の情報はdetection.boxに格納されている
+        const width = image.width * marginVal;
+        const height = image.height * marginVal;
+        const x = detection.box.x * posix - (width - detection.box._width) / 2;
+        const y = detection.box.y * posiy - (height - detection.box._height) / 2;
 
-    }, 100);
+        //canvas.getContext("2d").fillRect(x, y, width, height); // 追加
+        canvas.getContext("2d").drawImage(image, x, y, width, height);
+      });
+      requestAnimationFrame(loop);
+    };
 
-
+    // 初回処理
+    requestAnimationFrame(loop);
   });
 
 
